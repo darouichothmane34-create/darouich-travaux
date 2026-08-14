@@ -1,0 +1,4 @@
+@page "/login"
+@model DarouichTravaux.Web.Pages.LoginModel
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/app.css"><title>Connexion — Darouich Travaux</title></head><body class="login"><main><h1>DAROUICH <b>TRAVAUX</b></h1><p>Votre gestion BTP, simplement.</p><form method="post"><label>Email<input name="Email" type="email" autocomplete="username" required></label><label>Mot de passe<input name="Password" type="password" autocomplete="current-password" required></label><button>Se connecter</button>@Html.AntiForgeryToken()<div asp-validation-summary="All"></div></form><a href="/mot-de-passe-oublie">Mot de passe oublié ?</a></main></body></html>
