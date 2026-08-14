@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk.Web"><ItemGroup><ProjectReference Include="../DarouichTravaux.Infrastructure/DarouichTravaux.Infrastructure.csproj" /><PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" /></ItemGroup></Project>
