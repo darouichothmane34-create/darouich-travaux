@@ -1,0 +1,3 @@
+@page "/changer-mot-de-passe"
+@model DarouichTravaux.Web.Pages.ChangePasswordModel
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="/app.css"><title>Sécurité</title></head><body class="login"><main><h1>Changer le mot de passe</h1><form method="post"><label>Mot de passe actuel<input asp-for="CurrentPassword"></label><label>Nouveau mot de passe<input asp-for="NewPassword"></label><label>Confirmer le nouveau mot de passe<input asp-for="Confirmation"></label><button>Enregistrer</button><div asp-validation-summary="All"></div></form></main></body></html>

@@ -1,0 +1,4 @@
+@page
+@model DarouichTravaux.Web.Pages.IndexModel
+@{ ViewData["Title"]="Tableau de bord"; }
+<h1>Tableau de bord</h1><section class="cards"><article><span>Total facturé</span><strong>@Model.Data.Invoiced.ToString("N2") DH</strong></article><article><span>Total encaissé</span><strong>@Model.Data.Collected.ToString("N2") DH</strong></article><article><span>Reste à encaisser</span><strong>@Model.Data.Outstanding.ToString("N2") DH</strong></article><article><span>Marge estimée</span><strong>@Model.Data.Margin.ToString("N2") DH</strong></article></section>
