@@ -1,0 +1,1 @@
+using DarouichTravaux.Maui.ViewModels; namespace DarouichTravaux.Maui.Views; public partial class LoginPage:ContentPage { private LoginViewModel ViewModel=>(LoginViewModel)BindingContext;public LoginPage(LoginViewModel vm){InitializeComponent();BindingContext=vm;}protected override async void OnAppearing(){base.OnAppearing();await ViewModel.InitializeAsync();} }
