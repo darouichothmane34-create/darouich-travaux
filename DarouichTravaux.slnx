@@ -2,6 +2,6 @@
   <Project Path="src/DarouichTravaux.Domain/DarouichTravaux.Domain.csproj" />
   <Project Path="src/DarouichTravaux.Application/DarouichTravaux.Application.csproj" />
   <Project Path="src/DarouichTravaux.Infrastructure/DarouichTravaux.Infrastructure.csproj" />
-  <Project Path="src/DarouichTravaux.Web/DarouichTravaux.Web.csproj" />
+  <Project Path="src/DarouichTravaux.Maui/DarouichTravaux.Maui.csproj" />
   <Project Path="tests/DarouichTravaux.Tests/DarouichTravaux.Tests.csproj" />
 </Solution>

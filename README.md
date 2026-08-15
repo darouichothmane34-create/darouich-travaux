@@ -1,41 +1,60 @@
-# Darouich Travaux
+# Darouich Travaux — application desktop .NET MAUI
 
-Mini-ERP BTP privé pour le gérant de Darouich Travaux. Cette première livraison pose l'architecture propre et le socle exécutable de la phase 1 : Identity, clients, chantiers, factures, paiements, dépenses et indicateurs.
+Application Windows native, privée et hors ligne de gestion BTP. L'interface XAML suit MVVM : les vues ne contiennent aucune règle métier. Les couches Domain, Application et Infrastructure restent indépendantes de MAUI afin de préparer une future cible Android.
 
-## Prérequis et configuration
+## Fonctionnalités livrées dans ce socle
 
-- Développement : SDK .NET 10 et PostgreSQL 18.
-- Production : Docker et un reverse proxy HTTPS. Ne publiez jamais PostgreSQL sur Internet.
-- Variables obligatoires : `ConnectionStrings__PostgreSQL` et `POSTGRES_PASSWORD`. Le compte gérant et son mot de passe temporaire doivent être injectés par un secret de déploiement, jamais versionnés.
+- connexion du gérant unique et configuration locale initiale, sans inscription distante ou publique ;
+- mots de passe PBKDF2-SHA512 avec sel aléatoire de 256 bits, 600 000 itérations et comparaison en temps constant ;
+- base SQLite `darouich-travaux.db` dans `FileSystem.AppDataDirectory`, utilisable entièrement hors ligne ;
+- tableau de bord, recherche/création rapide de clients et navigation vers les modules ERP ;
+- changement de mot de passe et sauvegarde/restauration SQLite avec contrôle d'intégrité ;
+- noms de sauvegarde `darouich-travaux-backup-YYYY-MM-DD-HHmm.db` ;
+- service de nommage PDF produisant `Facture(Ahmed_El_Mansouri)-FAC-2026-018.pdf` ;
+- dépendances QuestPDF et ClosedXML prêtes pour les documents de la phase suivante.
 
-```bash
-export ConnectionStrings__PostgreSQL='Host=localhost;Database=darouich;Username=darouich;Password=...'
-dotnet ef database update --project src/DarouichTravaux.Infrastructure --startup-project src/DarouichTravaux.Web
-dotnet run --project src/DarouichTravaux.Web
-```
+Les entrées du menu non encore implémentées constituent la feuille de route et ne sont pas présentées comme fonctionnelles.
 
-Identity impose 10 caractères, majuscule, minuscule, chiffre et caractère spécial, verrouille après cinq échecs et utilise un cookie `HttpOnly`, `Secure`, `SameSite=Strict`. Toutes les routes sont privées par défaut ; `/login` est explicitement anonyme. Il n'existe aucune inscription publique.
+## Prérequis développeur
 
-## Build, tests et déploiement
+- Windows 10 19041 ou plus récent / Windows 11 ;
+- SDK .NET 10 avec la charge de travail MAUI : `dotnet workload install maui-windows` ;
+- Visual Studio 2026 avec « Développement d’applications .NET MAUI » ou la CLI .NET.
 
-```bash
-dotnet restore
-dotnet test
-docker compose up --build -d
-```
+Aucun serveur, PostgreSQL ou Node.js n'est requis. Au premier lancement, l'écran privé de configuration crée l'unique compte local. Le mot de passe n'est jamais journalisé ni stocké en clair.
 
-Le proxy (Caddy, Traefik ou Nginx) doit terminer TLS, rediriger HTTP vers HTTPS et transmettre les en-têtes `X-Forwarded-*`. Sauvegarde quotidienne : `pg_dump -Fc darouich > darouich.dump`. Restauration testée : `pg_restore --clean --if-exists -d darouich darouich.dump`.
-
-## Publication Windows
-
-Le client Windows dédié est prévu dans la prochaine itération. La commande de publication self-contained sera :
+## Restaurer, compiler et tester
 
 ```powershell
-dotnet publish src/DarouichTravaux.Windows -c Release -r win-x64 --self-contained true
+dotnet restore DarouichTravaux.slnx
+dotnet build DarouichTravaux.slnx -c Release
+dotnet run --project src/DarouichTravaux.Maui -f net10.0-windows10.0.19041.0
 ```
 
-Inno Setup produira `DarouichTravauxSetup.exe`, avec raccourcis Bureau/Menu Démarrer et désinstallation. Le client appellera exclusivement l'API hébergée en HTTPS : ni SDK, ni PostgreSQL, ni Node.js ne seront requis sur le PC.
+## Publication Windows x64 self-contained
 
-## Feuille de route
+```powershell
+dotnet publish src/DarouichTravaux.Maui/DarouichTravaux.Maui.csproj `
+  -f net10.0-windows10.0.19041.0 -c Release -r win-x64 `
+  --self-contained true -p:PublishSingleFile=false `
+  -o artifacts/publish
+```
 
-La phase 1 est livrée de façon incrémentale : ce socle contient les modèles et règles critiques, mais les écrans CRUD, migrations générées, réinitialisation email, PDF QuestPDF, paramètres complets et seed sécurisé restent à terminer avant d'entamer la phase 2. Chaque secret doit vivre dans le gestionnaire de secrets de l'hébergeur.
+Le dossier contient `DarouichTravaux.exe` et toutes ses dépendances : l'utilisateur final n'installe pas .NET.
+
+## Installateur Windows
+
+1. Installer Inno Setup sur le poste de build.
+2. Publier dans `artifacts/publish` avec la commande précédente.
+3. Compiler `installer/DarouichTravaux.iss`.
+4. Distribuer `installer/output/DarouichTravauxSetup.exe`.
+
+L'installateur x64 crée les entrées Menu Démarrer et Désinstallation et propose un raccourci Bureau.
+
+## Données et sauvegardes
+
+La base active et le dossier `Sauvegardes` sont placés dans le répertoire applicatif propre à l'utilisateur Windows. Une sauvegarde utilise l'API SQLite, après checkpoint WAL. Avant restauration, l'application exécute `PRAGMA integrity_check` et conserve une copie de sécurité `.before-restore`. Il est recommandé de copier régulièrement les sauvegardes vers un support chiffré externe.
+
+## Android ultérieur
+
+Les services n'utilisent aucune API Windows. Pour Android, ajouter `net10.0-android` aux frameworks, le manifeste Android et une implémentation d'ouverture du dossier adaptée. La base et les ViewModels sont réutilisables.
