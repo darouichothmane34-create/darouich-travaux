@@ -1,1 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?><ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DarouichTravaux.Maui.Views.DashboardPage" Title="Tableau de bord"><ScrollView><VerticalStackLayout Padding="32" Spacing="24"><Label Text="Tableau de bord" FontSize="30" FontAttributes="Bold" TextColor="#103B2E"/><FlexLayout Wrap="Wrap" JustifyContent="Start"><Border StyleId="Card"><VerticalStackLayout><Label Text="Total facturé"/><Label Text="{Binding Data.Invoiced, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold"/></VerticalStackLayout></Border><Border StyleId="Card"><VerticalStackLayout><Label Text="Total encaissé"/><Label Text="{Binding Data.Collected, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold"/></VerticalStackLayout></Border><Border StyleId="Card"><VerticalStackLayout><Label Text="Reste à encaisser"/><Label Text="{Binding Data.Outstanding, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold"/></VerticalStackLayout></Border><Border StyleId="Card"><VerticalStackLayout><Label Text="Marge estimée"/><Label Text="{Binding Data.Margin, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold"/></VerticalStackLayout></Border></FlexLayout></VerticalStackLayout></ScrollView></ContentPage>
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DarouichTravaux.Maui.Views.DashboardPage"
+             BackgroundColor="#F5F7F8" Title="Tableau de bord">
+    <ScrollView>
+        <VerticalStackLayout Padding="28" Spacing="22">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Vue d'ensemble" FontSize="32" FontAttributes="Bold" TextColor="#18372E"/>
+                <Label Text="Suivez l'activité de votre entreprise en temps réel." FontSize="14" TextColor="#60756C"/>
+            </VerticalStackLayout>
+            <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignItems="Start">
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="TOTAL FACTURÉ" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.Invoiced, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold" TextColor="#18372E"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="TOTAL ENCAISSÉ" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.Collected, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold" TextColor="#176A4F"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="RESTE À ENCAISSER" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.Outstanding, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold" TextColor="#A56A12"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="MARGE ESTIMÉE" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.Margin, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold" TextColor="#18372E"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="DÉPENSES" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.Expenses, StringFormat='{0:N2} DH'}" FontSize="24" FontAttributes="Bold" TextColor="#18372E"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="CHANTIERS ACTIFS" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.ActiveProjects}" FontSize="24" FontAttributes="Bold" TextColor="#18372E"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 14" Padding="22" Margin="0,0,14,14" WidthRequest="235">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="FACTURES EN RETARD" FontSize="12" TextColor="#647970"/>
+                        <Label Text="{Binding Data.OverdueInvoices}" FontSize="24" FontAttributes="Bold" TextColor="#A33939"/>
+                    </VerticalStackLayout>
+                </Border>
+            </FlexLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

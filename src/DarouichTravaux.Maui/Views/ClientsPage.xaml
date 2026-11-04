@@ -1,1 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?><ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DarouichTravaux.Maui.Views.ClientsPage" Title="Clients"><Grid Padding="32" RowDefinitions="Auto,*"><Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><SearchBar Placeholder="Rechercher un client" Text="{Binding Search}" SearchCommand="{Binding LoadCommand}"/><Button Grid.Column="1" Text="Nouveau client" Command="{Binding AddCommand}"/></Grid><CollectionView Grid.Row="1" ItemsSource="{Binding Clients}" Margin="0,20"><CollectionView.ItemTemplate><DataTemplate><Border Margin="0,5" Padding="16" Stroke="#DDE5E1"><Grid ColumnDefinitions="2*,*,*"><Label Text="{Binding Name}" FontAttributes="Bold"/><Label Grid.Column="1" Text="{Binding Phone}"/><Label Grid.Column="2" Text="{Binding City}"/></Grid></Border></DataTemplate></CollectionView.ItemTemplate></CollectionView></Grid></ContentPage>
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DarouichTravaux.Maui.Views.ClientsPage"
+             BackgroundColor="#F5F7F8" Title="Clients">
+    <Grid Padding="28" RowDefinitions="Auto,Auto,*" RowSpacing="20">
+        <VerticalStackLayout Spacing="6">
+            <Label Text="Clients" FontSize="32" FontAttributes="Bold" TextColor="#18372E"/>
+            <Label Text="Ajoutez, consultez, modifiez et supprimez vos fiches clients." FontSize="14" TextColor="#60756C"/>
+        </VerticalStackLayout>
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <SearchBar Placeholder="Nom, entreprise, téléphone, e-mail ou ville"
+                       Text="{Binding Search}" SearchCommand="{Binding LoadCommand}"
+                       TextChanged="OnSearchChanged" BackgroundColor="White"/>
+            <Button Grid.Column="1" Text="+ Ajouter un client" Clicked="OnAddClientClicked"/>
+        </Grid>
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Clients}"
+                        EmptyView="Aucun client trouvé. Ajoutez un client ou modifiez votre recherche.">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 12"
+                            Margin="0,0,0,10" Padding="16">
+                        <Grid ColumnDefinitions="2*,*,*,Auto" ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="#18372E"/>
+                                <Label Text="{Binding CompanyName}" FontSize="12" TextColor="#60756C"/>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" Text="{Binding Phone}" VerticalOptions="Center" TextColor="#3D5550"/>
+                            <Label Grid.Column="2" Text="{Binding City}" VerticalOptions="Center" TextColor="#3D5550"/>
+                            <HorizontalStackLayout Grid.Column="3" Spacing="6">
+                                <Button Text="Voir" BackgroundColor="#E8EFEA" TextColor="#145A41"
+                                        CommandParameter="{Binding .}" Clicked="OnViewClientClicked"/>
+                                <Button Text="Modifier" CommandParameter="{Binding .}" Clicked="OnEditClientClicked"/>
+                                <Button Text="Supprimer" BackgroundColor="#A43535"
+                                        CommandParameter="{Binding .}" Clicked="OnDeleteClientClicked"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
