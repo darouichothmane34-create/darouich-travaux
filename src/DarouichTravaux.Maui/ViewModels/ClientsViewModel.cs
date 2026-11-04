@@ -19,16 +19,20 @@ public partial class ClientsViewModel(IClientService service) : ObservableObject
         foreach (var client in clients) Clients.Add(client);
     }
 
-    public async Task AddClientAsync(string name, string? phone, string? city)
+    public async Task SaveClientAsync(Client client)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(client.Name))
             throw new ArgumentException("Le nom du client est obligatoire.");
-        await service.SaveAsync(new Client
-        {
-            Name = name.Trim(),
-            Phone = string.IsNullOrWhiteSpace(phone) ? null : phone.Trim(),
-            City = string.IsNullOrWhiteSpace(city) ? null : city.Trim()
-        });
+        if (!string.IsNullOrWhiteSpace(client.Email) &&
+            !new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(client.Email))
+            throw new ArgumentException("L'adresse e-mail est invalide.");
+        await service.SaveAsync(client);
+        await LoadAsync();
+    }
+
+    public async Task DeleteClientAsync(Client client)
+    {
+        await service.DeleteAsync(client.Id);
         await LoadAsync();
     }
 }
