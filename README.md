@@ -58,3 +58,33 @@ La base active et le dossier `Sauvegardes` sont placés dans le répertoire appl
 ## Android ultérieur
 
 Les services n'utilisent aucune API Windows. Pour Android, ajouter `net10.0-android` aux frameworks, le manifeste Android et une implémentation d'ouverture du dossier adaptée. La base et les ViewModels sont réutilisables.
+
+## Mot de passe oublié : code reçu par e-mail
+
+Sur l'écran de connexion, cliquez sur **Mot de passe oublié ?**, saisissez l'adresse du gérant,
+puis **Envoyer un code par e-mail**. Le code à six chiffres expire au bout de 10 minutes ;
+cinq erreurs au maximum sont autorisées et deux demandes doivent être espacées d'une minute.
+Un code utilisé ne peut pas être réutilisé. Le nouveau mot de passe doit respecter la politique
+existante (au moins 10 caractères, majuscule, minuscule, chiffre et symbole).
+
+**Configuration indispensable avant utilisation :** la machine doit avoir accès à Internet et
+à un serveur SMTP avec STARTTLS (port 587 par défaut). Renseignez les variables d'environnement
+dans le profil Windows ou le mécanisme de déploiement, puis relancez l'application :
+
+- `DAROUICH_SMTP_HOST` : nom d'hôte SMTP du fournisseur
+- `DAROUICH_SMTP_PORT` : port (par défaut `587`)
+- `DAROUICH_SMTP_USER` : utilisateur SMTP
+- `DAROUICH_SMTP_PASSWORD` : mot de passe d'application / jeton SMTP
+- `DAROUICH_SMTP_FROM` : adresse d'expédition autorisée (facultatif, par défaut SMTP_USER)
+
+N'ajoutez **jamais** le secret SMTP à GitHub, dans un fichier `.env` versionné, ni dans
+les sources. Utilisez des identifiants dédiés à l'envoi avec des droits restreints. Un
+fournisseur qui n'accepte pas STARTTLS sur le port choisi ne fonctionne pas avec cette
+implémentation. Cette fonctionnalité dépend d'Internet ; le reste du logiciel demeure hors ligne.
+
+Le hash du code (et non le code en clair), son expiration et le nombre d'essais sont stockés
+dans SQLite. Le code est supprimé après une réinitialisation réussie. Sur un ordinateur
+partagé, protégez également l'accès au fichier SQLite et au profil Windows.
+
+**État :** cette fonctionnalité est implémentée dans le code, mais la compilation Windows
+et la délivrabilité SMTP doivent être vérifiées sur l'environnement de déploiement.
