@@ -28,6 +28,7 @@ public sealed class SqliteDatabase(string databasePath) : IDatabaseInitializer
     private const string Schema = """
         PRAGMA journal_mode=WAL;
         CREATE TABLE IF NOT EXISTS ManagerAccounts(Id TEXT PRIMARY KEY, Email TEXT NOT NULL UNIQUE COLLATE NOCASE, PasswordHash TEXT NOT NULL, PasswordSalt TEXT NOT NULL, PasswordIterations INTEGER NOT NULL, MustChangePassword INTEGER NOT NULL, CreatedAtUtc TEXT NOT NULL, UpdatedAtUtc TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS PasswordResetCodes(AccountId TEXT PRIMARY KEY REFERENCES ManagerAccounts(Id) ON DELETE CASCADE, CodeHash TEXT NOT NULL, CodeSalt TEXT NOT NULL, ExpiresUtc TEXT NOT NULL, LastSentUtc TEXT NOT NULL, Attempts INTEGER NOT NULL DEFAULT 0);
         CREATE TABLE IF NOT EXISTS Clients(Id TEXT PRIMARY KEY, Name TEXT NOT NULL, CompanyName TEXT, Phone TEXT, Email TEXT, Address TEXT, City TEXT, Ice TEXT, TaxId TEXT, Rc TEXT, Cnie TEXT, Notes TEXT, CreatedAtUtc TEXT NOT NULL, UpdatedAtUtc TEXT NOT NULL);
         CREATE INDEX IF NOT EXISTS IX_Clients_Name ON Clients(Name COLLATE NOCASE);
         CREATE TABLE IF NOT EXISTS Projects(Id TEXT PRIMARY KEY, Code TEXT NOT NULL UNIQUE, Name TEXT NOT NULL, ClientId TEXT NOT NULL REFERENCES Clients(Id) ON DELETE RESTRICT, Address TEXT, City TEXT, Description TEXT, StartDate TEXT NOT NULL, ExpectedEndDate TEXT, ActualEndDate TEXT, ContractAmount REAL NOT NULL, Budget REAL NOT NULL, Progress REAL NOT NULL CHECK(Progress BETWEEN 0 AND 100), Manager TEXT, Status INTEGER NOT NULL, CreatedAtUtc TEXT NOT NULL, UpdatedAtUtc TEXT NOT NULL);
