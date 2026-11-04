@@ -1,1 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?><ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DarouichTravaux.Maui.Views.LoginPage" BackgroundColor="#103B2E" Shell.NavBarIsVisible="False"><Grid><Border WidthRequest="420" Padding="42" BackgroundColor="White" StrokeShape="RoundRectangle 18" HorizontalOptions="Center" VerticalOptions="Center"><VerticalStackLayout Spacing="8"><Label Text="DAROUICH TRAVAUX" TextColor="#145A41" FontSize="28" FontAttributes="Bold" HorizontalTextAlignment="Center"/><Label Text="Gestion BTP hors ligne" TextColor="#63736D" HorizontalTextAlignment="Center" Margin="0,0,0,24"/><Label Text="Email"/><Entry Text="{Binding Email}" Keyboard="Email" Placeholder="gerant@entreprise.ma"/><Label Text="Mot de passe"/><Entry Text="{Binding Password}" IsPassword="True" ReturnCommand="{Binding LoginCommand}"/><Button Text="Se connecter" Command="{Binding LoginCommand}"/><Button Text="Créer le compte gérant sur cet appareil" Command="{Binding CreateManagerCommand}" IsVisible="{Binding NeedsInitialSetup}" BackgroundColor="#D6A23E"/><Label Text="{Binding Error}" TextColor="#B42318" HorizontalTextAlignment="Center" Margin="0,8"/></VerticalStackLayout></Border></Grid></ContentPage>
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DarouichTravaux.Maui.Views.LoginPage"
+             BackgroundColor="#103B2E" Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <Grid MinimumHeightRequest="650" Padding="20">
+            <Border WidthRequest="430" Padding="34" BackgroundColor="White"
+                    StrokeShape="RoundRectangle 18" HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="DAROUICH TRAVAUX" TextColor="#145A41"
+                           FontSize="27" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="Gestion sécurisée de votre entreprise" TextColor="#63736D"
+                           HorizontalTextAlignment="Center" Margin="0,0,0,16"/>
+                    <Label Text="Adresse e-mail"/>
+                    <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="gerant@entreprise.ma"/>
+                    <VerticalStackLayout IsVisible="{Binding IsLoggingIn}" Spacing="12">
+                        <Label Text="Mot de passe"/>
+                        <Entry Text="{Binding Password}" IsPassword="True" ReturnCommand="{Binding LoginCommand}"/>
+                        <Button Text="Se connecter" Command="{Binding LoginCommand}"/>
+                        <Button Text="Mot de passe oublié ?" Command="{Binding ShowRecoveryCommand}"
+                                BackgroundColor="Transparent" TextColor="#145A41"/>
+                        <Button Text="Créer le compte gérant sur cet appareil"
+                                Command="{Binding CreateManagerCommand}"
+                                IsVisible="{Binding NeedsInitialSetup}" BackgroundColor="#D6A23E"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout IsVisible="{Binding IsRecovering}" Spacing="12">
+                        <Label Text="Réinitialiser le mot de passe" FontSize="19"
+                               FontAttributes="Bold" TextColor="#145A41"/>
+                        <Label Text="Recevez un code à 6 chiffres par e-mail. Valable 10 minutes."
+                               TextColor="#63736D"/>
+                        <Button Text="Envoyer un code par e-mail" Command="{Binding RequestRecoveryCodeCommand}"/>
+                        <Label Text="Code de vérification"/>
+                        <Entry Text="{Binding RecoveryCode}" Keyboard="Numeric" MaxLength="6"
+                               Placeholder="000000"/>
+                        <Label Text="Nouveau mot de passe"/>
+                        <Entry Text="{Binding NewPassword}" IsPassword="True"/>
+                        <Label Text="Confirmer le nouveau mot de passe"/>
+                        <Entry Text="{Binding ConfirmPassword}" IsPassword="True"/>
+                        <Button Text="Confirmer et réinitialiser" Command="{Binding ConfirmRecoveryCommand}"/>
+                        <Button Text="Retour à la connexion" Command="{Binding CancelRecoveryCommand}"
+                                BackgroundColor="Transparent" TextColor="#145A41"/>
+                    </VerticalStackLayout>
+                    <Label Text="{Binding Error}" TextColor="#B42318" HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" Margin="0,6"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
