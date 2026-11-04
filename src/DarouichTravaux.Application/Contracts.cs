@@ -12,11 +12,6 @@ public interface IAuthenticationService
     void Logout();
 }
 public record LoginResult(bool Succeeded, bool MustChangePassword, string? Error = null);
-public interface IPasswordRecoveryService
-{
-    Task RequestCodeAsync(string email, CancellationToken cancellationToken = default);
-    Task ResetPasswordAsync(string email, string code, string newPassword, CancellationToken cancellationToken = default);
-}
 public interface IBackupService
 {
     string BackupDirectory { get; }
