@@ -6,4 +6,9 @@
     <PackageReference Include="QuestPDF" Version="2025.7.4" />
     <PackageReference Include="ClosedXML" Version="0.105.0" />
   </ItemGroup>
+  <!-- Ancien prototype web Entity Framework / PostgreSQL, incompatible avec le socle SQLite actuel. -->
+  <ItemGroup>
+    <Compile Remove="Persistence.cs" />
+    <Compile Remove="Services.cs" />
+  </ItemGroup>
 </Project>
