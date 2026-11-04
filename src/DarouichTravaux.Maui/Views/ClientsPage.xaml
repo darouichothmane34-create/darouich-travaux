@@ -6,12 +6,12 @@
     <Grid Padding="28" RowDefinitions="Auto,Auto,*" RowSpacing="20">
         <VerticalStackLayout Spacing="6">
             <Label Text="Clients" FontSize="32" FontAttributes="Bold" TextColor="#18372E"/>
-            <Label Text="Recherchez et gérez les coordonnées de vos clients." FontSize="14" TextColor="#60756C"/>
+            <Label Text="Ajoutez, consultez, modifiez et supprimez vos fiches clients." FontSize="14" TextColor="#60756C"/>
         </VerticalStackLayout>
         <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="12">
             <SearchBar Placeholder="Nom, entreprise, téléphone, e-mail ou ville"
                        Text="{Binding Search}" SearchCommand="{Binding LoadCommand}"
-                       BackgroundColor="White"/>
+                       TextChanged="OnSearchChanged" BackgroundColor="White"/>
             <Button Grid.Column="1" Text="+ Ajouter un client" Clicked="OnAddClientClicked"/>
         </Grid>
         <CollectionView Grid.Row="2" ItemsSource="{Binding Clients}"
@@ -19,14 +19,21 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border BackgroundColor="White" Stroke="#E1E8E4" StrokeShape="RoundRectangle 12"
-                            Margin="0,0,0,10" Padding="18">
-                        <Grid ColumnDefinitions="2*,*,*" ColumnSpacing="16">
-                            <VerticalStackLayout Spacing="4">
+                            Margin="0,0,0,10" Padding="16">
+                        <Grid ColumnDefinitions="2*,*,*,Auto" ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="4" VerticalOptions="Center">
                                 <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="#18372E"/>
                                 <Label Text="{Binding CompanyName}" FontSize="12" TextColor="#60756C"/>
                             </VerticalStackLayout>
                             <Label Grid.Column="1" Text="{Binding Phone}" VerticalOptions="Center" TextColor="#3D5550"/>
                             <Label Grid.Column="2" Text="{Binding City}" VerticalOptions="Center" TextColor="#3D5550"/>
+                            <HorizontalStackLayout Grid.Column="3" Spacing="6">
+                                <Button Text="Voir" BackgroundColor="#E8EFEA" TextColor="#145A41"
+                                        CommandParameter="{Binding .}" Clicked="OnViewClientClicked"/>
+                                <Button Text="Modifier" CommandParameter="{Binding .}" Clicked="OnEditClientClicked"/>
+                                <Button Text="Supprimer" BackgroundColor="#A43535"
+                                        CommandParameter="{Binding .}" Clicked="OnDeleteClientClicked"/>
+                            </HorizontalStackLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>
