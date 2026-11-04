@@ -58,3 +58,23 @@ La base active et le dossier `Sauvegardes` sont placés dans le répertoire appl
 ## Android ultérieur
 
 Les services n'utilisent aucune API Windows. Pour Android, ajouter `net10.0-android` aux frameworks, le manifeste Android et une implémentation d'ouverture du dossier adaptée. La base et les ViewModels sont réutilisables.
+
+## Télécharger la version Windows compilée
+
+La branche `amelioration-interface-clients-2026` contient un workflow GitHub Actions
+`.github/workflows/windows-build.yml` qui compile le logiciel pour Windows x64,
+exécute les tests et produit une archive portable.
+
+1. Aller dans l'onglet **Actions** du dépôt.
+2. Ouvrir **Compilation Windows - Darouich Travaux**.
+3. Choisir une exécution réussie (coche verte). Si nécessaire, utiliser **Run workflow**
+   en sélectionnant la branche `amelioration-interface-clients-2026`.
+4. En bas de la page de l'exécution, rubrique **Artifacts**, télécharger
+   **DarouichTravaux-Windows-x64**.
+5. Extraire le ZIP obtenu, conserver tous les fichiers du dossier et lancer
+   **DarouichTravaux.exe** sous Windows 10/11 (x64).
+
+**Attention :** le ZIP est téléchargeable seulement si les étapes de compilation et de test
+se terminent avec succès. Le build est déclenché automatiquement à chaque changement de
+code sur cette branche ; un outil MAUI Windows et le SDK .NET 10 sont requis.
+Le fichier `.exe` ne s'exécute pas sur macOS, Linux ou Android.
